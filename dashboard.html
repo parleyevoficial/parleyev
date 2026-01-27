@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Dashboard - Parley EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/img/logo.png" alt="Parley EV Logo">
+        </div>
+        
+        <div class="ticker-container">
+            <div class="stock-ticker">
+              
+            <div class="ticker-scroll">
+    <span>💎 ANÁLISIS EXCLUSIVO: ESTÁS VIENDO NUESTRA SECCIÓN GRATUITA. SI BUSCAS MAXIMIZAR TUS PROBABILIDADES, ÚNETE A NUESTRA FAMILIA VIP.</span>
+    <span>⚠️ NOTA DE TRANSPARENCIA: NUESTROS PRONÓSTICOS SE BASAN EN DATOS Y ESTADÍSTICAS REALES; SIN EMBARGO, NO EXISTEN LAS CERTEZAS ABSOLUTAS. SOMOS ANALISTAS, NO MAGOS.</span>
+    
+    <span>💎 ANÁLISIS EXCLUSIVO: ESTÁS VIENDO NUESTRA SECCIÓN GRATUITA. SI BUSCAS MAXIMIZAR TUS PROBABILIDADES, ÚNETE A NUESTRA FAMILIA VIP.</span>
+    <span>⚠️ NOTA DE TRANSPARENCIA: NUESTROS PRONÓSTICOS SE BASAN EN DATOS Y ESTADÍSTICAS REALES; SIN EMBARGO, NO EXISTEN LAS CERTEZAS ABSOLUTAS. SOMOS ANALISTAS, NO MAGOS.</span>
+</div>
+
+            </div>
+            <button class="btn-vip-nav" id="btn-vip-action">
+                <i class="fa-solid fa-gem"></i> VIP
+            </button>
+        </div>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="welcome-section">
+            <h2>PRONÓSTICOS DEL DÍA</h2>
+            <p id="user-welcome">Cargando análisis...</p>
+        </div>
+
+        <div class="predictions-container">
+            <table class="prediction-table">
+                <thead>
+                    <tr>
+                        <th>Evento</th>
+                        <th>Deporte</th>
+                        <th>Pronóstico Detallado</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-pronosticos">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <a href="https://t.me/parleyevapp" target="_blank" class="telegram-link">
+                <i class="fa-brands fa-telegram"></i>
+                <span>Soporte VIP: @parleyevapp</span>
+            </a>
+            <p class="copy">&copy; 2026 Parley EV. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
