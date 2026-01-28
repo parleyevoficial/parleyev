@@ -39,8 +39,7 @@ const cargarPronosticos = async () => {
         const encontradoLocal = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_local);
         const encontradoVisitante = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_visitante);
 
-        console.log("Buscando:", encontrandoLocal, "en biblioteca de", bibliotecaLogos.length, "logos");
-        console.log("Buscando:", encontrandoVisitante, "en biblioteca de", bibliotecaLogos.length, "logos");
+        console.log(`🔍 Resultado búsqueda para ${partido.equipo_local}:`, encontradoLocal);
 
 
         // Si hay coincidencia exacta, extrae 'link_logo', de lo contrario usa el escudo base
