@@ -46,6 +46,9 @@ const cargarPronosticos = async () => {
         const imgL = encontradoLocal ? encontradoLocal.link_logo : 'https://img.icons8.com/color/48/shield.png';
         const imgV = encontradoVisitante ? encontradoVisitante.link_logo : 'https://img.icons8.com/color/48/shield.png';
 
+        console.log(`🖼️ LOGO LOCAL (${partido.equipo_local}):`, imgL);
+console.log(`🖼️ LOGO VISITANTE (${partido.equipo_visitante}):`, imgV);
+
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
