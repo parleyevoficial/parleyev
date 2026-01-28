@@ -16,46 +16,46 @@ const cargarPronosticos = async () => {
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) return;
 
-    // 1. Traer los partidos
-    let { data: partidos, error: errorPartidos } = await supabaseClient
+    // Traemos los partidos ordenados por el más reciente
+    let { data: partidos, error } = await supabaseClient
         .from('partidos')
-        .select('*');
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    // 2. Traer TODA tu biblioteca de logos para comparar
-    let { data: bibliotecaLogos } = await supabaseClient
-        .from('logos')
-        .select('*');
-
-    if (errorPartidos) return;
+    if (error) return;
 
     tablaBody.innerHTML = '';
 
     partidos.forEach(partido => {
-        // Buscamos el logo en nuestra tabla 'logos' localmente para que sea más rápido
-        const logoLocal = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_local)?.link_logo;
-        const logoVisitante = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_visitante)?.link_logo;
-
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
+        // Si no hay URL en la base de datos, usamos el escudo por defecto
+        const imgL = partido.url_equipo_local || 'https://img.icons8.com/color/48/shield.png';
+        const imgV = partido.url_equipo_visitante || 'https://img.icons8.com/color/48/shield.png';
+
         fila.innerHTML = `
             <td>
                 <div class="evento-celda">
                     <div class="equipo-info">
-                        <img src="${logoLocal || 'https://img.icons8.com/color/48/shield.png'}" class="logo-equipo">
+                        <img src="${imgL}" class="logo-equipo" onerror="this.src='https://img.icons8.com/color/48/shield.png'">
                         <span>${partido.equipo_local}</span>
                     </div>
                     <span class="vs-text">VS</span>
                     <div class="equipo-info">
-                        <img src="${logoVisitante || 'https://img.icons8.com/color/48/shield.png'}" class="logo-equipo">
+                        <img src="${imgV}" class="logo-equipo" onerror="this.src='https://img.icons8.com/color/48/shield.png'">
                         <span>${partido.equipo_visitante}</span>
                     </div>
                 </div>
-                
             </td>
-            <td><i class="fa-solid ${iconoDeporte}"></i> ${partido.deporte}<br><p class="liga-texto">${partido.liga}</p></td>
-            <td><strong>${partido.pronostico}</strong></td>
-            
+            <td>
+                <i class="fa-solid ${iconoDeporte}"></i> ${partido.deporte}
+                <p class="liga-texto">${partido.liga}</p>
+            </td>
+            <td>
+                <strong>${partido.pronostico}</strong>
+                ${partido.es_vip ? '<span class="badge-vip">💎 VIP</span>' : ''}
+            </td>
         `;
         tablaBody.appendChild(fila);
     });
