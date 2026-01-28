@@ -56,12 +56,12 @@ console.log(`🖼️ LOGO VISITANTE (${partido.equipo_visitante}):`, imgV);
             <td>
                 <div class="evento-celda">
                     <div class="equipo-info">
-                        <img src="${imgL}" class="logo-equipo" onerror="this.src='https://img.icons8.com/color/48/shield.png'">
+                        <img src="${imgL}" class="logo-equipo">
                         <span>${partido.equipo_local}</span>
                     </div>
                     <span class="vs-text">VS</span>
                     <div class="equipo-info">
-                        <img src="${imgV}" class="logo-equipo" onerror="this.src='https://img.icons8.com/color/48/shield.png'">
+                        <img src="${imgV}" class="logo-equipo">
                         <span>${partido.equipo_visitante}</span>
                     </div>
                 </div>
