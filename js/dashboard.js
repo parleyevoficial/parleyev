@@ -13,63 +13,49 @@ const obtenerIconoDeporte = (deporte) => {
 };
 
 const cargarPronosticos = async () => {
-    // 1. Usar supabaseClient (definido en auth.js)
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
 
-    if (authError || !user) {
-        window.location.href = "index.html";
-        return;
-    }
+    // 1. Traer los partidos
+    let { data: partidos, error: errorPartidos } = await supabaseClient
+        .from('partidos')
+        .select('*');
 
-    welcomeText.innerText = `Bienvenido, ${user.email}`;
+    // 2. Traer TODA tu biblioteca de logos para comparar
+    let { data: bibliotecaLogos } = await supabaseClient
+        .from('logos')
+        .select('*');
 
-    // 2. Verificar si el usuario es VIP en la tabla 'perfiles'
-    const { data: perfil } = await supabaseClient
-        .from('perfiles')
-        .select('es_vip')
-        .eq('id', user.id)
-        .single();
+    if (errorPartidos) return;
 
-    const usuarioEsVip = perfil ? perfil.es_vip : false;
-
-    // 3. Consultar la tabla 'partidos'
-    let query = supabaseClient.from('partidos').select('*');
-
-    // Si no es VIP, solo traer partidos gratuitos
-    if (!usuarioEsVip) {
-        query = query.eq('es_vip', false);
-    }
-
-    const { data: partidos, error } = await query;
-
-    if (error) {
-        console.error("Error cargando partidos:", error);
-        return;
-    }
-
-    // 4. Limpiar y llenar la tabla
     tablaBody.innerHTML = '';
 
-    if (partidos.length === 0) {
-        tablaBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">No hay pronósticos disponibles por ahora.</td></tr>';
-        return;
-    }
+    partidos.forEach(partido => {
+        // Buscamos el logo en nuestra tabla 'logos' localmente para que sea más rápido
+        const logoLocal = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_local)?.link_logo;
+        const logoVisitante = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_visitante)?.link_logo;
 
-    partidos.forEach(item => {
-        const icono = obtenerIconoDeporte(item.deporte);
+        const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
+        
         fila.innerHTML = `
             <td>
-                <strong>${item.equipo_local} vs ${item.equipo_visitante}</strong>
-                <p>${item.liga}</p>
+                <div class="evento-celda">
+                    <div class="equipo-info">
+                        <img src="${logoLocal || 'https://img.icons8.com/color/48/shield.png'}" class="logo-equipo">
+                        <span>${partido.equipo_local}</span>
+                    </div>
+                    <span class="vs-text">VS</span>
+                    <div class="equipo-info">
+                        <img src="${logoVisitante || 'https://img.icons8.com/color/48/shield.png'}" class="logo-equipo">
+                        <span>${partido.equipo_visitante}</span>
+                    </div>
+                </div>
+                
             </td>
-            <td>
-                <i class="fa-solid ${icono}"></i> ${item.deporte}
-            </td>
-            <td>
-                <strong>${item.pronostico}</strong>
-                ${item.es_vip ? '<span class="badge-vip">💎 VIP</span>' : ''}
-            </td>
+            <td><i class="fa-solid ${iconoDeporte}"></i> ${partido.deporte}<br><p class="liga-texto">${partido.liga}</p></td>
+            <td><strong>${partido.pronostico}</strong></td>
+            
         `;
         tablaBody.appendChild(fila);
     });

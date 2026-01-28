@@ -58,6 +58,8 @@ btnPublicar.addEventListener('click', async () => {
 
         alert("✅ ¡Pronóstico publicado con éxito!");
         
+        cargarListaGestion();
+
         // Limpiar formulario
         document.getElementById('local').value = "";
         document.getElementById('visitante').value = "";
@@ -74,3 +76,56 @@ btnPublicar.addEventListener('click', async () => {
 });
 
 verificarAdmin();
+
+// --- LÓGICA PARA GESTIONAR Y ELIMINAR PARTIDOS ---
+
+const listaGestion = document.getElementById('lista-gestion');
+
+// Función para cargar la lista de partidos en el panel admin
+const cargarListaGestion = async () => {
+    const { data: partidos, error } = await supabaseClient
+        .from('partidos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) return;
+
+    listaGestion.innerHTML = '';
+
+    partidos.forEach(partido => {
+        const item = document.createElement('div');
+        item.className = 'gestion-item';
+        item.innerHTML = `
+            <div class="gestion-info">
+                <strong>${partido.equipo_local} vs ${partido.equipo_visitante}</strong>
+                <span>${partido.deporte} - ${partido.liga}</span>
+            </div>
+            <button class="btn-eliminar" onclick="eliminarPartido('${partido.id}')">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        `;
+        listaGestion.appendChild(item);
+    });
+};
+
+// Función para eliminar el partido
+window.eliminarPartido = async (id) => {
+    if (confirm("¿Estás seguro de que quieres eliminar este pronóstico?")) {
+        const { error } = await supabaseClient
+            .from('partidos')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            alert("Error al eliminar");
+        } else {
+            cargarListaGestion(); // Recargar la lista
+        }
+    }
+};
+
+// Llamar a la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarListaGestion);
+
+// Opcional: Actualizar la lista después de publicar uno nuevo
+// Solo tienes que agregar cargarListaGestion(); dentro del bloque 'try' de tu botón publicar

@@ -292,3 +292,28 @@ body {
     padding: 15px;
     /* ... el resto ya lo tienes en tu CSS ... */
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .stock-ticker {
+        width: 100%;
+        margin-left: 0;
+        height: 30px;
+    }
+
+    .ticker-scroll span {
+        font-size: 0.9rem;
+        margin-right: 30px;
+    }
+    
+    /* Evita que el logo se vea muy grande en el bloque apilado */
+    .logo img {
+        height: 40px;
+    }
+}

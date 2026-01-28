@@ -106,7 +106,7 @@ body {
 }
 
 .vip-switch input { width: 20px; height: 20px; cursor: pointer; }
-.vip-switch label { margin-bottom: 0; color: #00d4ff; cursor: pointer; }
+.vip-switch label { margin-bottom: 0; color: #fff; cursor: pointer; }
 
 /* BOTÓN */
 .btn-submit {
@@ -134,4 +134,97 @@ body {
 
 @media (max-width: 600px) {
     .form-row { flex-direction: column; gap: 0; }
+}
+
+/* ESTILOS PARA LA GESTIÓN DE PARTIDOS */
+.gestion-container {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.gestion-container h3 {
+    color: var(--naranja-ev);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.gestion-item {
+    background: var(--gris-oscuro);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--gris-borde);
+}
+
+.gestion-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.gestion-info strong {
+    color: white;
+}
+
+.gestion-info span {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.btn-eliminar {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-eliminar:hover {
+    background: #cc0000;
+    transform: scale(1.1);
+}
+
+/* Ajustes para evitar que el texto se desordene en móviles */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column; /* Apila el formulario y la lista de gestión */
+        padding: 20px 3%;
+        align-items: center;
+    }
+
+    .form-card {
+        padding: 20px;
+        width: 100%;
+    }
+
+    /* Evita que los nombres de equipos largos rompan el diseño */
+    .gestion-item {
+        flex-direction: column; /* El botón de basura se va abajo del texto en móviles muy pequeños */
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .gestion-info strong {
+        font-size: 0.95rem;
+        word-break: break-word; /* Rompe el texto si el nombre del equipo es muy largo */
+    }
+
+    .btn-eliminar {
+        width: 100%; /* Botón de eliminar ancho completo para facilitar el clic */
+        text-align: center;
+    }
+
+    /* Navbar del admin en móviles */
+    .admin-navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        text-align: center;
+        gap: 10px;
+    }
 }

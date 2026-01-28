@@ -91,3 +91,82 @@ body {
 .main-footer { background: #000; padding: 25px; text-align: center; border-top: 1px solid var(--gris-borde); }
 
 .telegram-link { color: var(--naranja-ev); text-decoration: none; font-weight: bold; }
+
+
+/* Estilos para los logos y alineación de equipos */
+.evento-celda {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.equipo-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px; /* Tamaño fijo para que todo alinee igual */
+    text-align: center;
+    gap: 5px;
+}
+
+.logo-equipo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    background:transparent; 
+    border-radius: 50%;
+    padding: 3px;
+}
+
+.vs-text {
+    color: var(--naranja-ev);
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.equipo-info span {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.liga-texto {
+    margin-top: 8px;
+    font-size: 0.75rem !important;
+    color: #888 !important;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .ticker-container {
+        width: 100%; /* El carrusel ocupa todo el ancho debajo del logo */
+        margin-left: 0;
+        order: 2; /* Lo posiciona debajo del logo */
+    }
+
+    .btn-vip-nav {
+        width: 100%; /* El botón se ajusta al ancho del móvil */
+        justify-content: center;
+        order: 3;
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .stock-ticker {
+        height: 35px; /* Altura controlada para que no se vea amontonado */
+    }
+
+    .ticker-scroll span {
+        font-size: 0.85rem; /* Texto un poco más pequeño para móviles */
+        padding-right: 50px; /* Menos espacio entre frases para que fluya mejor */
+    }
+}
