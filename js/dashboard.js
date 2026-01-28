@@ -16,24 +16,37 @@ const cargarPronosticos = async () => {
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) return;
 
-    // Traemos los partidos ordenados por el más reciente
-    let { data: partidos, error } = await supabaseClient
+    // 1. Traer los partidos
+    let { data: partidos, error: errorPartidos } = await supabaseClient
         .from('partidos')
         .select('*')
         .order('created_at', { ascending: false });
 
-    if (error) return;
+    // 2. Traer toda tu biblioteca de logos (donde están nom_equipo y link_logo)
+    let { data: bibliotecaLogos, error: errorLogos } = await supabaseClient
+        .from('logos')
+        .select('*');
 
-    tablaBody.innerHTML = '';
+    if (errorPartidos) {
+        console.error("Error partidos:", errorPartidos);
+        return;
+    }
+
+    tablaBody.innerHTML = ''; 
 
     partidos.forEach(partido => {
+        // --- LÓGICA DE RECLUTAMIENTO ---
+        // Buscamos en 'bibliotecaLogos' un 'nom_equipo' que coincida con lo que escribiste en el admin
+        const datosLogoLocal = bibliotecaLogos?.find(l => l.nom_equipo === partido.url_equipo_local);
+        const datosLogoVisitante = bibliotecaLogos?.find(l => l.nom_equipo === partido.url_equipo_visitante);
+
+        // Extraemos el link_logo si lo encuentra, si no, usamos el escudo por defecto
+        const imgL = datosLogoLocal ? datosLogoLocal.link_logo : 'https://img.icons8.com/color/48/shield.png';
+        const imgV = datosLogoVisitante ? datosLogoVisitante.link_logo : 'https://img.icons8.com/color/48/shield.png';
+
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
-        // Si no hay URL en la base de datos, usamos el escudo por defecto
-        const imgL = partido.url_equipo_local || 'https://img.icons8.com/color/48/shield.png';
-        const imgV = partido.url_equipo_visitante || 'https://img.icons8.com/color/48/shield.png';
-
         fila.innerHTML = `
             <td>
                 <div class="evento-celda">
