@@ -28,6 +28,8 @@ btnPublicar.addEventListener('click', async () => {
     const liga = document.getElementById('liga').value;
     const equipo_local = document.getElementById('local').value;
     const equipo_visitante = document.getElementById('visitante').value;
+    const url_equipo_local = document.getElementById('url_local').value;
+    const url_equipo_visitante = document.getElementById('url_visitante').value;
     const pronostico = document.getElementById('pronostico').value;
     const es_vip = document.getElementById('es_vip').checked;
 
@@ -49,6 +51,8 @@ btnPublicar.addEventListener('click', async () => {
                     liga: liga, 
                     equipo_local: equipo_local, 
                     equipo_visitante: equipo_visitante, 
+                    url_equipo_local: url_equipo_local, // Enviando URL local
+                    url_equipo_visitante: url_equipo_visitante, // Enviando URL visitante
                     pronostico: pronostico, 
                     es_vip: es_vip 
                 }
@@ -63,6 +67,8 @@ btnPublicar.addEventListener('click', async () => {
         // Limpiar formulario
         document.getElementById('local').value = "";
         document.getElementById('visitante').value = "";
+        document.getElementById('url_local').value = "";
+        document.getElementById('url_visitante').value = "";
         document.getElementById('pronostico').value = "";
         document.getElementById('es_vip').checked = false;
 
