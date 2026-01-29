@@ -170,51 +170,43 @@
     color: var(--accent-orange) !important;
 }
 
-/* --- CARRUSEL VERTICAL --- */
-.vertical-carousel {
-    height: 30px;
-    overflow: hidden;
+/* --- CARRUSEL HORIZONTAL (TICKER) --- */
+.horizontal-carousel {
     flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden; /* Oculta lo que sale de los bordes */
+    white-space: nowrap; /* Mantiene todo el texto en una sola línea */
+    position: relative;
+    margin: 0 20px;
+    background: rgba(255, 102, 0, 0.05); /* Fondo sutil naranja */
+    border-radius: 20px;
+    padding: 8px 0;
 }
 
-.carousel-track {
-    display: flex;
-    flex-direction: column;
-    animation: slideVertical 9s infinite;
+.carousel-track-h {
+    display: inline-block;
+    padding-left: 100%; /* Inicia el texto fuera de la vista a la derecha */
+    animation: scrollHorizontal 25s linear infinite; /* Ajusta los segundos para más o menos velocidad */
 }
 
-.carousel-track span {
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-orange);
+.carousel-track-h span {
+    display: inline-block;
+    color: var(--accent-orange); /* Usa tu variable #ff6600 */
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    padding-right: 60px; /* Espacio entre cada frase */
     text-transform: uppercase;
-    text-align: center;
 }
 
-@keyframes slideVertical {
-    0%, 25% { transform: translateY(0); }
-    33%, 58% { transform: translateY(-30px); }
-    66%, 91% { transform: translateY(-60px); }
-    100% { transform: translateY(0); }
-}
-
-/* --- RESPONSIVIDAD TOTAL (Móviles) --- */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        height: auto;
-        gap: 10px;
-        padding: 15px;
+/* Animación de desplazamiento */
+@keyframes scrollHorizontal {
+    0% {
+        transform: translateX(0);
     }
+    100% {
+        transform: translateX(-100%); /* Desplaza todo el contenido hacia la izquierda */
+    }
+}
 
-    .vertical-carousel { display: none; } /* Ocultar en móvil para ganar espacio */
 
     .stats-dashboard {
         grid-template-columns: repeat(2, 1fr); /* 2 columnas en vez de 4 */
