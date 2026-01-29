@@ -108,7 +108,7 @@ body {
 .stock-ticker {
     flex: 1; /* Ocupa todo el espacio sobrante en la barra */
     margin-left: 50px;
-    background: rgba(255, 102, 0, 0.05); /* Un toque naranja muy suave de fondo */
+    background: transparent;
     overflow: hidden;
     white-space: nowrap;
     display: flex;
