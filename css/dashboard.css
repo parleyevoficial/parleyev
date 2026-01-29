@@ -30,14 +30,14 @@ body {
    ========================================= */
 .navbar {
     background: rgba(0, 0, 0, 0.95);
-    padding: 10px 5%;
+    padding: 20px 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 2px solid var(--naranja-ev);
 }
 
-.logo img { height: 50px; }
+.logo img { height: 80px; }
 
 .ticker-container { 
     flex-grow: 1; 
@@ -196,7 +196,7 @@ body {
     .navbar {
         flex-direction: column;
         height: auto;
-        padding: 15px;
+        padding: 20px 5%;
         gap: 15px;
     }
 
