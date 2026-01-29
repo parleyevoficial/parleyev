@@ -110,7 +110,7 @@ if (btnVip) {
             console.log(`Usuario ${user.email} marcado como 'Pagando' en tabla perfiles`);
 
             // 3. Redirigir al link de pago de Cryptomus
-            const urlPagoCryptomus = "https://cryptomus.com/pay/TU_ID_DE_PAGO";
+            const urlPagoCryptomus = "https://pay.oxapay.com/13612355";
             window.open(urlPagoCryptomus, '_blank');
 
         } catch (err) {
