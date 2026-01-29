@@ -240,6 +240,8 @@ body {
     }
 
     .prediction-table td strong {
+        white-space: pre-wrap; /* Esta es la clave */
+        word-wrap: break-word;
         font-size: 0.9rem;
         color: var(--blanco); /* Resaltar el pronóstico en móvil */
     }
