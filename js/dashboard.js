@@ -80,3 +80,42 @@ console.log(`🖼️ LOGO VISITANTE (${partido.equipo_visitante}):`, imgV);
 };
 
 document.addEventListener('DOMContentLoaded', cargarPronosticos);
+
+// Configuración del botón de pago VIP
+const btnVip = document.getElementById('btn-vip-action');
+
+if (btnVip) {
+    btnVip.addEventListener('click', async () => {
+        // 1. Obtener el usuario autenticado
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            alert("Debes iniciar sesión para adquirir el plan VIP.");
+            return;
+        }
+
+        try {
+            // 2. Actualizar el campo 'estado_pago' en la tabla 'perfiles'
+            // Usamos el ID de Auth para encontrar su perfil vinculado
+            const { error } = await supabaseClient
+                .from('perfiles') 
+                .update({ 
+                    estado_pago: 'Pagando',
+                    email: user.email // Aseguramos que el email esté para tu comparación
+                })
+                .eq('id', user.id);
+
+            if (error) throw error;
+
+            console.log(`Usuario ${user.email} marcado como 'Pagando' en tabla perfiles`);
+
+            // 3. Redirigir al link de pago de Cryptomus
+            const urlPagoCryptomus = "https://cryptomus.com/pay/TU_ID_DE_PAGO";
+            window.open(urlPagoCryptomus, '_blank');
+
+        } catch (err) {
+            console.error("Error al procesar solicitud VIP:", err);
+            alert("Hubo un error al conectar con el sistema de pagos.");
+        }
+    });
+}
