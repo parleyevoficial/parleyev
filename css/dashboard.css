@@ -129,7 +129,7 @@ body {
 /* Estilos de texto en celdas */
 .prediction-table td strong { 
     color: #fff; 
-    font-size: 0.9rem; 
+    font-size: 0.8rem; 
     display: block;
     line-height: 1.4;
     white-space: normal; /* Permite que el texto largo salte de línea */
