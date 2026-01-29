@@ -98,7 +98,7 @@ body {
 .dashboard-content { flex: 1; padding: 40px 5%; }
 
 .welcome-section { text-align: center; margin-bottom: 30px; }
-.welcome-section h2 { color: var(--naranja-ev); font-size: 2rem; }
+.welcome-section h2 { color: var(--naranja-ev); font-size: 1.5rem; }
 
 .predictions-container { 
     background: var(--gris-oscuro); 
