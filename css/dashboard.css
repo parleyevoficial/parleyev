@@ -251,3 +251,49 @@ body {
         margin: 0 auto;        /* Centra el bloque 'inline-block' en la celda */
     }
 }
+
+/* --- ESTILOS PARA EL ENLACE PLAY STATS EN LA NAV --- */
+
+.nav-link-stats {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Evita que el texto se divida en dos líneas en PC */
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.nav-link-stats i {
+    color: #00ff88; /* Verde neón para representar dinero y estadísticas */
+    font-size: 1.1rem;
+}
+
+.nav-link-stats:hover {
+    color: var(--naranja-ev);
+    background: rgba(255, 255, 255, 0.05); /* Efecto sutil al pasar el mouse */
+}
+
+/* Ajuste del contenedor para que todo quepa bien en PC */
+.ticker-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+/* Responsivo: Si la pantalla es muy pequeña, ocultamos el texto y dejamos solo el icono */
+@media (max-width: 600px) {
+    .nav-link-stats span {
+        display: none;
+    }
+    .nav-link-stats {
+        margin-right: 10px;
+    }
+}

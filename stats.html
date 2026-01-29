@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Stats - Parley EV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/stats.css"> </head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="dashboard.html"><img src="assets/img/logo.png" alt="Parley EV Logo"></a>
+        </div>
+        <div class="ticker-container">
+            <a href="dashboard.html" class="nav-link-stats">
+                <i class="fa-solid fa-house"></i> Volver al Dashboard
+            </a>
+        </div>
+    </nav>
+
+    <main class="stats-container">
+        
+        <section class="registration-panel">
+            <h3><i class="fa-solid fa-pen-to-square"></i> Registrar Nuevo Parley</h3>
+            <form id="form-registro-parley" class="stats-form">
+                <div class="input-group">
+                    <label>Evento / Descripción</label>
+                    <input type="text" id="evento" placeholder="Ej: Real Madrid vs Barca" required>
+                </div>
+                <div class="input-group">
+                    <label>Inversión ($)</label>
+                    <input type="number" step="0.01" id="inversion" placeholder="0.00" required>
+                </div>
+                <div class="input-group">
+                    <label>Momio Americano</label>
+                    <input type="number" id="momio" placeholder="Ej: -110 o +150" required>
+                </div>
+                <div class="input-group">
+                    <label>Resultado</label>
+                    <select id="resultado">
+                        <option value="Pendiente">Pendiente ⏳</option>
+                        <option value="Gane">Gane ✅</option>
+                        <option value="Perdi">Perdí ❌</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-save">
+                    <i class="fa-solid fa-floppy-disk"></i> Guardar Registro
+                </button>
+            </form>
+        </section>
+
+        <section class="stats-dashboard">
+            <div class="stat-card">
+                <span class="stat-title">Jugados</span>
+                <span class="stat-value" id="stat-jugados">0</span>
+            </div>
+            <div class="stat-card highlight">
+                <span class="stat-title">Efectividad</span>
+                <span class="stat-value" id="stat-efectividad">0%</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-title">Invertido</span>
+                <span class="stat-value" id="stat-invertido">$0.00</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-title">Ganancia Neta</span>
+                <span class="stat-value" id="stat-ganancia">$0.00</span>
+            </div>
+        </section>
+
+        <section class="history-panel">
+            <h3><i class="fa-solid fa-list"></i> Historial de Apuestas</h3>
+            <div class="table-scroll">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Evento</th>
+                            <th>Inv.</th>
+                            <th>Momio</th>
+                            <th>Resultado</th>
+                            <th>Neto</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-parleys">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/stats.js"></script> </body>
+</html>
