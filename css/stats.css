@@ -160,3 +160,12 @@
 .btn-delete:hover {
     color: var(--accent-orange);
 }
+
+.fa-house {
+    color: var(--accent-orange) !important;
+}
+
+/* Color naranja para el icono de la línea ascendente (Chart Line) */
+.fa-chart-line {
+    color: var(--accent-orange) !important;
+}

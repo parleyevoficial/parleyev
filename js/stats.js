@@ -60,8 +60,10 @@ form.addEventListener('submit', async (e) => {
 
 // 4. Función para Cargar Datos y Procesar Algoritmo de Stats
 async function cargarDatos() {
+    // 1. Obtener sesión y usuario
     const { data: { user } } = await supabaseClient.auth.getUser();
 
+    // 2. Traer datos de Supabase
     const { data: parleys, error } = await supabaseClient.from('parleys')
         .select('*')
         .eq('cod_per', user.id)
@@ -71,36 +73,46 @@ async function cargarDatos() {
 
     // --- ALGORITMO DE CÁLCULO DE STATS ---
     let totalInvertido = 0;
-let totalGanadoNeto = 0; // Ganancia real de los verdes
-let ganados = 0;
-let finalizados = 0;
+    let balanceNetoReal = 0; // Ganancia real (Profit/Loss)
+    let ganados = 0;
+    let finalizados = 0;
 
-parleys.forEach(p => {
-    totalInvertido += p.inversion;
-    
-    if (p.resultado === 'Gane') {
-        totalGanadoNeto += p.ganancia_neta; // Suma lo que ganó
-        ganados++;
-        finalizados++;
-    } else if (p.resultado === 'Perdi') {
-        totalGanadoNeto -= p.inversion; // RESTA la inversión de los perdidos para el balance real
-        finalizados++;
-    }
+    // SOLUCIÓN AL DUPLICADO: Limpiar la tabla antes de empezar el ciclo
+    listaParleys.innerHTML = ''; 
 
-    statGanancia.style.color = totalGanadoNeto >= 0 ? '#ff6600' : '#ff3333';
-statGanancia.innerText = `$${totalGanadoNeto.toFixed(2)}`;
+    parleys.forEach(p => {
+        totalInvertido += p.inversion;
+        
+        let netoFila = 0;
 
-        // Imprimir en la tabla (HTML)
+        if (p.resultado === 'Gane') {
+            balanceNetoReal += p.ganancia_neta; 
+            netoFila = p.ganancia_neta;
+            ganados++;
+            finalizados++;
+        } else if (p.resultado === 'Perdi') {
+            balanceNetoReal -= p.inversion; // Resta la inversión si se perdió
+            netoFila = -p.inversion;
+            finalizados++;
+        } else {
+            netoFila = 0; // Pendiente no suma ni resta al balance
+        }
+
+        // --- IMPRIMIR EN LA TABLA ---
         const claseBadge = `badge-${p.resultado.toLowerCase()}`;
+        
+        // Color dinámico: Naranja para ganar, Rojo para perder, Blanco para pendiente
+        const colorNeto = p.resultado === 'Gane' ? '#ff6600' : (p.resultado === 'Perdi' ? '#ff3333' : '#fff');
+
         listaParleys.innerHTML += `
             <tr>
                 <td>${new Date(p.fecha).toLocaleDateString()}</td>
                 <td>${p.evento}</td>
-                <td>$${p.inversion}</td>
+                <td>$${p.inversion.toFixed(2)}</td>
                 <td>${p.momio_americano > 0 ? '+' + p.momio_americano : p.momio_americano}</td>
                 <td class="${claseBadge}">${p.resultado}</td>
-                <td style="color: ${p.ganancia_neta > 0 ? '#ff6600' : '#fff'}">
-                    $${p.ganancia_neta}
+                <td style="color: ${colorNeto}; font-weight: bold;">
+                    $${netoFila.toFixed(2)}
                 </td>
                 <td>
                     <button class="btn-delete" onclick="eliminarParley('${p.id}')">
@@ -111,14 +123,17 @@ statGanancia.innerText = `$${totalGanadoNeto.toFixed(2)}`;
         `;
     });
 
-    // Actualizar el Tablero de Stats
+    // --- ACTUALIZAR EL TABLERO DE STATS ---
     const efectividad = finalizados > 0 ? ((ganados / finalizados) * 100).toFixed(1) : 0;
     
     statJugados.innerText = parleys.length;
     statEfectividad.innerText = `${efectividad}%`;
     statInvertido.innerText = `$${totalInvertido.toFixed(2)}`;
-    statGanancia.innerText = `$${totalGanadoNeto.toFixed(2)}`;
-}
+    
+    // El balance general cambia de color: Naranja si es positivo, Rojo si es pérdida
+    statGanancia.style.color = balanceNetoReal >= 0 ? '#ff6600' : '#ff3333';
+    statGanancia.innerText = `$${balanceNetoReal.toFixed(2)}`;
+}        
 
 // 5. Función para Eliminar
 window.eliminarParley = async (id) => {
