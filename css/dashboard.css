@@ -246,7 +246,7 @@ body {
         color: var(--blanco); /* Resaltar el pronóstico en móvil */
         display: inline-block; /* Permite que el bloque se centre pero el texto adentro no */
         text-align: left;      /* Alinea el texto a la izquierda dentro del bloque */
-        max-width: 80%;        /* Evita que el texto toque los bordes */
+        max-width: 50%;        /* Evita que el texto toque los bordes */
         margin: 0 auto;        /* Centra el bloque 'inline-block' en la celda */
     }
 }
