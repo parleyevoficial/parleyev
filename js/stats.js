@@ -104,23 +104,22 @@ async function cargarDatos() {
         // Color dinámico: Naranja para ganar, Rojo para perder, Blanco para pendiente
         const colorNeto = p.resultado === 'Gane' ? '#ff6600' : (p.resultado === 'Perdi' ? '#ff3333' : '#fff');
 
-        listaParleys.innerHTML += `
-            <tr>
-                <td>${new Date(p.fecha).toLocaleDateString()}</td>
-                <td>${p.evento}</td>
-                <td>$${p.inversion.toFixed(2)}</td>
-                <td>${p.momio_americano > 0 ? '+' + p.momio_americano : p.momio_americano}</td>
-                <td class="${claseBadge}">${p.resultado}</td>
-                <td style="color: ${colorNeto}; font-weight: bold;">
-                    $${netoFila.toFixed(2)}
-                </td>
-                <td>
-                    <button class="btn-delete" onclick="eliminarParley('${p.id}')">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        `;
+        // Dentro del forEach de cargarDatos en stats.js
+listaParleys.innerHTML += `
+    <tr>
+        <td data-label="Fecha">${new Date(p.fecha).toLocaleDateString()}</td>
+        <td data-label="Evento">${p.evento}</td>
+        <td data-label="Inv.">$${p.inversion.toFixed(2)}</td>
+        <td data-label="Momio">${p.momio_americano > 0 ? '+' + p.momio_americano : p.momio_americano}</td>
+        <td data-label="Resultado" class="${claseBadge}">${p.resultado}</td>
+        <td data-label="Neto" style="color: ${colorNeto}">$${netoFila.toFixed(2)}</td>
+        <td data-label="Acción">
+            <button class="btn-delete" onclick="eliminarParley('${p.id}')">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </td>
+    </tr>
+`;
     });
 
     // --- ACTUALIZAR EL TABLERO DE STATS ---

@@ -169,3 +169,96 @@
 .fa-chart-line {
     color: var(--accent-orange) !important;
 }
+
+/* --- CARRUSEL VERTICAL --- */
+.vertical-carousel {
+    height: 30px;
+    overflow: hidden;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    flex-direction: column;
+    animation: slideVertical 9s infinite;
+}
+
+.carousel-track span {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-orange);
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+@keyframes slideVertical {
+    0%, 25% { transform: translateY(0); }
+    33%, 58% { transform: translateY(-30px); }
+    66%, 91% { transform: translateY(-60px); }
+    100% { transform: translateY(0); }
+}
+
+/* --- RESPONSIVIDAD TOTAL (Móviles) --- */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .vertical-carousel { display: none; } /* Ocultar en móvil para ganar espacio */
+
+    .stats-dashboard {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en vez de 4 */
+        gap: 10px;
+    }
+
+    .stat-card { padding: 15px; }
+    .stat-value { font-size: 1.2rem; }
+
+    .stats-form {
+        grid-template-columns: 1fr; /* Una sola columna para el formulario */
+    }
+
+    /* Convertir tabla en tarjetas para móvil */
+    .history-table thead { display: none; }
+    
+    .history-table, .history-table tbody, .history-table tr, .history-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .history-table tr {
+        margin-bottom: 15px;
+        border: 1px solid var(--border-gray);
+        background: var(--card-bg);
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .history-table td {
+        text-align: right;
+        padding: 8px 10px;
+        position: relative;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .history-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: var(--text-gray);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+    }
+}
