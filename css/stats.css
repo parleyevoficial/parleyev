@@ -170,44 +170,6 @@
     color: var(--accent-orange) !important;
 }
 
-/* --- CARRUSEL HORIZONTAL (TICKER) --- */
-.horizontal-carousel {
-    flex-grow: 1;
-    overflow: hidden; /* Oculta lo que sale de los bordes */
-    white-space: nowrap; /* Mantiene todo el texto en una sola línea */
-    position: relative;
-    margin: 0 20px;
-    background: transparent; /* Fondo sutil naranja */
-    border-radius: 20px;
-    padding: 8px 0;
-}
-
-.carousel-track-h {
-    display: inline-block;
-    padding-left: 100%; /* Inicia el texto fuera de la vista a la derecha */
-    animation: scrollHorizontal 25s linear infinite; /* Ajusta los segundos para más o menos velocidad */
-}
-
-.carousel-track-h span {
-    display: inline-block;
-    color: var(--accent-orange); /* Usa tu variable #ff6600 */
-    font-weight: bold;
-    font-size: 0.9rem;
-    padding-right: 60px; /* Espacio entre cada frase */
-    text-transform: uppercase;
-}
-
-/* Animación de desplazamiento */
-@keyframes scrollHorizontal {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%); /* Desplaza todo el contenido hacia la izquierda */
-    }
-}
-
-
     .stats-dashboard {
         grid-template-columns: repeat(2, 1fr); /* 2 columnas en vez de 4 */
         gap: 10px;
