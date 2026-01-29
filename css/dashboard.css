@@ -240,7 +240,7 @@ body {
     }
 
     .prediction-table td strong {
-        font-size: 1.1rem;
-        color: var(--naranja-ev); /* Resaltar el pronóstico en móvil */
+        font-size: 0.9rem;
+        color: var(--blanco); /* Resaltar el pronóstico en móvil */
     }
 }
