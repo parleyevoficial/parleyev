@@ -177,7 +177,7 @@
     white-space: nowrap; /* Mantiene todo el texto en una sola línea */
     position: relative;
     margin: 0 20px;
-    background: rgba(255, 102, 0, 0.05); /* Fondo sutil naranja */
+    background: transparent; /* Fondo sutil naranja */
     border-radius: 20px;
     padding: 8px 0;
 }
@@ -192,7 +192,7 @@
     display: inline-block;
     color: var(--accent-orange); /* Usa tu variable #ff6600 */
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     padding-right: 60px; /* Espacio entre cada frase */
     text-transform: uppercase;
 }
@@ -253,3 +253,22 @@
         text-transform: uppercase;
         font-size: 0.7rem;
     }
+.navbar {
+    display: flex !important;
+    flex-direction: row !important; /* <--- ESTA ES LA LÍNEA QUE ACOMODA TODO EN FILA */
+    flex-wrap: nowrap !important;    /* Evita que los elementos se salten de línea */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ajuste adicional para que el texto del botón no empuje el carrusel en móviles */
+@media (max-width: 768px) {
+    .nav-text {
+        display: none; /* En móviles ocultamos el texto "Dashboard" y dejamos solo el icono */
+    }
+    
+    .horizontal-carousel {
+        margin: 0 5px; /* Reducimos margen para ganar espacio */
+    }
+}
