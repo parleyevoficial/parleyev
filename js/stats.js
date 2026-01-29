@@ -38,10 +38,9 @@ form.addEventListener('submit', async (e) => {
     const ganancia_neta = calcularGananciaNeta(inversion, momio, resultado);
 
     // Obtener el ID del usuario actual de la sesión
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const { error } = await supabase
-        .from('parleys')
+    const { error } = await supabaseClient.from('parleys')
         .insert([{
             cod_per: user.id,
             evento,
@@ -61,10 +60,9 @@ form.addEventListener('submit', async (e) => {
 
 // 4. Función para Cargar Datos y Procesar Algoritmo de Stats
 async function cargarDatos() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const { data: parleys, error } = await supabase
-        .from('parleys')
+    const { data: parleys, error } = await supabaseClient.from('parleys')
         .select('*')
         .eq('cod_per', user.id)
         .order('created_at', { ascending: false });
@@ -125,7 +123,7 @@ statGanancia.innerText = `$${totalGanadoNeto.toFixed(2)}`;
 // 5. Función para Eliminar
 window.eliminarParley = async (id) => {
     if (confirm('¿Seguro que quieres eliminar este registro?')) {
-        const { error } = await supabase.from('parleys').delete().eq('id', id);
+        const { error } = await supabaseClient.from('parleys').delete().eq('id', id);
         if (!error) cargarDatos();
     }
 };

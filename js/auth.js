@@ -3,8 +3,7 @@ const SB_URL = "https://kjyhvidjikfoezjvpvpw.supabase.co";
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtqeWh2aWRqaWtmb2V6anZwdnB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1MTg3NDYsImV4cCI6MjA4NTA5NDc0Nn0.xG4j1nOwthdC71Tol_-FrTklCVUnt5kxjF9YrU8afuE";
 
 // 2. Inicializar el cliente (Cambiamos el nombre a 'supabaseClient' para evitar el error de la captura)
-const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
-
+window.supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 // 3. Capturar los elementos
 const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
