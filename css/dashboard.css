@@ -242,8 +242,11 @@ body {
     .prediction-table td strong {
         white-space: pre-wrap; /* Esta es la clave */
         word-wrap: break-word;
-        text-align: left;
         font-size: 0.9rem;
         color: var(--blanco); /* Resaltar el pronóstico en móvil */
+        display: inline-block; /* Permite que el bloque se centre pero el texto adentro no */
+        text-align: left;      /* Alinea el texto a la izquierda dentro del bloque */
+        max-width: 90%;        /* Evita que el texto toque los bordes */
+        margin: 0 auto;        /* Centra el bloque 'inline-block' en la celda */
     }
 }
