@@ -16,39 +16,44 @@ const cargarPronosticos = async () => {
     const { data: { user } } = await supabaseClient.auth.getUser();
     if (!user) return;
 
-    // 1. Traer los partidos de la tabla 'partidos'
-    let { data: partidos, error: errorPartidos } = await supabaseClient
-        .from('partidos')
-        .select('*')
-        .order('created_at', { ascending: false });
+    // 1. Obtener el estatus VIP del usuario actual
+    const { data: perfil } = await supabaseClient
+        .from('perfiles')
+        .select('es_vip')
+        .eq('id', user.id)
+        .single();
 
-    // 2. Traer la biblioteca de la tabla 'logos'
+    const usuarioEsVip = perfil ? perfil.es_vip : false;
+
+    // 2. Definir la consulta de partidos con la condicional que mencionas
+    let query = supabaseClient.from('partidos').select('*');
+
+    // SI NO ES VIP: Solo cargamos los datos donde es_vip sea FALSE
+    if (!usuarioEsVip) {
+        query = query.eq('es_vip', false);
+    }
+
+    // Ejecutar la consulta con el ordenamiento que ya tenías
+    let { data: partidos, error: errorPartidos } = await query.order('created_at', { ascending: false });
+
+    // 3. Traer la biblioteca de logos (esto se mantiene igual)
     let { data: bibliotecaLogos, error: errorLogos } = await supabaseClient
         .from('logos')
         .select('*');
 
     if (errorPartidos || errorLogos) {
-        console.error("Error al obtener datos de Supabase");
+        console.error("Error al obtener datos");
         return;
     }
 
     tablaBody.innerHTML = ''; 
 
+    // El resto de tu código de impresión (forEach) se mantiene EXACTAMENTE IGUAL
     partidos.forEach(partido => {
-        // RECLUTAMIENTO DIRECTO: Compara el texto de 'partidos' con 'nom_equipo' de 'logos'
         const encontradoLocal = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_local);
         const encontradoVisitante = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_visitante);
-
-        console.log(`🔍 Resultado búsqueda para ${partido.equipo_local}:`, encontradoLocal);
-
-
-        // Si hay coincidencia exacta, extrae 'link_logo', de lo contrario usa el escudo base
         const imgL = encontradoLocal ? encontradoLocal.link_logo : 'https://img.icons8.com/color/48/shield.png';
         const imgV = encontradoVisitante ? encontradoVisitante.link_logo : 'https://img.icons8.com/color/48/shield.png';
-
-        console.log(`🖼️ LOGO LOCAL (${partido.equipo_local}):`, imgL);
-console.log(`🖼️ LOGO VISITANTE (${partido.equipo_visitante}):`, imgV);
-
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
