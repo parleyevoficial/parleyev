@@ -327,3 +327,25 @@ body {
     margin: 0;
     font-weight: 500;
 }
+
+/* 1. Centrar el contenido dentro de la celda de la tabla */
+.prediction-table td:first-child {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 2. Ajustar el contenedor flex para que los elementos se centren horizontalmente */
+.liga-contenedor {
+    display: flex;
+    align-items: center;      /* Centrado vertical */
+    justify-content: center;   /* Centrado horizontal (esto quita el pegado a la izquierda) */
+    gap: 8px;
+    width: 100%;
+}
+
+/* 3. Asegurar que el texto no tenga márgenes que lo empujen */
+.liga-texto {
+    font-size: 0.9rem !important;
+    margin: 0;
+    text-align: center;
+}
