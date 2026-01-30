@@ -157,7 +157,7 @@ body {
 
 .vs-text { color: var(--naranja-ev); font-weight: bold; font-size: 0.8rem; }
 .equipo-info span { font-size: 0.85rem; font-weight: bold; color: #fff; }
-.liga-texto { margin-top: 8px; font-size: 0.75rem !important; color: #888 !important; }
+.liga-texto { margin-top: 8px; font-size: 0.85rem !important; color: #fff !important; }
 
 .badge-vip {
     color: var(--vip-color);

@@ -58,6 +58,10 @@ const cargarPronosticos = async () => {
         const fila = document.createElement('tr');
         
         fila.innerHTML = `
+            
+             <td>
+                <p class="liga-texto">${partido.liga}</p>
+            </td>
             <td>
                 <div class="evento-celda">
                     <div class="equipo-info">
@@ -73,7 +77,6 @@ const cargarPronosticos = async () => {
             </td>
             <td>
                 <i class="fa-solid ${iconoDeporte}"></i> ${partido.deporte}
-                <p class="liga-texto">${partido.liga}</p>
             </td>
             <td>
                 <strong>${partido.pronostico}</strong>
