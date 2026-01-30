@@ -317,3 +317,18 @@ body {
         height: 80px;
     }
 }
+
+/* Clase para los logos dentro del carrusel */
+.logo-liga-ticker {
+    width: 24px;         /* Tamaño pequeño para que no rompa la barra */
+    height: 24px;
+    object-fit: contain; /* Evita que el logo se estire */
+    vertical-align: middle; /* Lo alinea al centro del texto */
+    margin-right: 10px;  /* Espacio entre el logo y el nombre de la liga */
+    filter: drop-shadow(0px 0px 2px rgba(255, 255, 255, 0.2)); /* Le da un ligero realce */
+}
+
+/* Ajuste opcional: Quitar el punto naranja si ya vas a usar logos */
+.ticker-scroll span::after {
+    display: none; /* Esto oculta el punto anterior para que no choque visualmente */
+}
