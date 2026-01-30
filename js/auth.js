@@ -12,26 +12,33 @@ const btnSignup = document.getElementById('btn-signup');
 
 // --- BOTÓN DE ENTRAR ---
 btnLogin.addEventListener('click', async () => {
-   // Busca estas líneas en tu auth.js y cámbialas:
-const email = emailInput.value.trim(); // .trim() elimina espacios invisibles
-const password = passwordInput.value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
     if (!email || !password) return alert("Ingresa tus datos");
 
+    // 1. Iniciar sesión normalmente
     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
     if (error) {
         alert("Error: " + error.message);
     } else {
-        alert("¡Bienvenido!");
-        // Redirección inteligente
-        if (data.user.email === "parleyevoficial@gmail.com") {
+        // 2. Si el login es correcto, consultamos su rango en la tabla 'perfiles'
+        const { data: perfil, error: errorPerfil } = await supabaseClient
+            .from('perfiles')
+            .select('es_admin')
+            .eq('id', data.user.id)
+            .single();
+
+        // 3. Redirección basada en la base de datos, no en el correo escrito
+        if (perfil && perfil.es_admin === true) {
+            alert("¡Bienvenido, Administrador!");
             window.location.href = "admin.html";
         } else {
+            alert("¡Bienvenido!");
             window.location.href = "dashboard.html";
         }
     }
-
 });
 
 // --- BOTÓN DE REGISTRO ---

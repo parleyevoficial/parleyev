@@ -5,20 +5,28 @@ const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 // CORRECCIÓN: Usamos supabaseClient para que no choque con la librería global
 const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
 
-// 2. SEGURIDAD: TU CORREO DE ADMINISTRADOR
-// Asegúrate de poner aquí tu correo real para poder publicar
-const ADMIN_EMAIL = "parleyevoficial@gmail.com";
-
 const btnPublicar = document.getElementById('btn-publicar');
 
-// Función para verificar que solo tú entres aquí
+// Función para verificar que realmente eres el administrador
 const verificarAdmin = async () => {
-    // Usamos supabaseClient aquí
+    // Obtenemos el usuario logueado
     const { data: { user }, error } = await supabaseClient.auth.getUser();
     
-    if (error || !user || user.email !== ADMIN_EMAIL) {
-        alert("Acceso denegado. Redirigiendo al inicio...");
+    if (error || !user) {
         window.location.href = "index.html";
+        return;
+    }
+
+    // Buscamos en la base de datos si su ID tiene permiso true
+    const { data: perfil } = await supabaseClient
+        .from('perfiles')
+        .select('es_admin')
+        .eq('id', user.id)
+        .single();
+
+    if (!perfil || perfil.es_admin !== true) {
+        alert("Acceso denegado. No eres administrador.");
+        window.location.href = "dashboard.html";
     }
 };
 
