@@ -348,4 +348,28 @@ body {
     font-size: 0.9rem !important;
     margin: 0;
     text-align: center;
+
+}
+
+.liga-contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;        /* Aumentamos el espacio entre logo y texto */
+    width: 100%;
+    padding: 5px 0;   /* Agregamos un poco de aire arriba y abajo */
+}
+
+.liga-texto {
+    font-size: 0.9rem !important;
+    font-weight: 900;
+    margin: 0;
+    white-space: nowrap; /* CLAVE: Evita que el texto se divida en dos líneas */
+    text-transform: uppercase; /* Opcional: hace que se vea más ordenado */
+}
+
+/* Forzar que la columna de la liga tenga un ancho mínimo suficiente */
+.prediction-table td:first-child {
+    min-width: 140px; 
+    text-align: center;
 }
