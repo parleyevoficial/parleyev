@@ -157,6 +157,7 @@ body {
 
 .vs-text { color: var(--naranja-ev); font-weight: bold; font-size: 0.8rem; }
 .equipo-info span { font-size: 0.85rem; font-weight: bold; color: #fff; }
+.liga-texto { margin-top: 8px; font-size: 0.85rem !important; color: #fff !important; }
 
 .badge-vip {
     color: var(--vip-color);
@@ -306,59 +307,23 @@ body {
     color: var(--accent-orange) !important;
 }
 
-/* =========================================
-   AJUSTE DE LIGA (CORRECCIÓN DE AMONTONAMIENTO)
-   ========================================= */
-
-/* 1. Celda de la tabla: le damos un ancho mínimo para que el texto no se apriete */
-.prediction-table td:first-child {
-    min-width: 160px; /* Evita que la columna colapse */
-    text-align: center;
-    padding: 15px;
-}
-
-/* =========================================
-   SISTEMA ANT-AMONTONAMIENTO DE LIGA
-   ========================================= */
-
-/* Forzamos que la celda de la liga no se colapse en ninguna pantalla */
-.prediction-table td.celda-liga {
-    min-width: 180px !important; /* Espacio garantizado para nombres largos */
-    display: table-cell !important; /* Evita que el modo móvil lo vuelva un bloque vertical */
-    padding: 15px 10px !important;
-}
-
+/* Contenedor para alinear logo y nombre de la liga */
 .liga-contenedor {
-    display: flex !important; /* Forzamos flexbox siempre */
-    flex-direction: row !important; /* Alineación horizontal obligatoria */
+    display: flex;
     align-items: center;
-    gap: 12px;
-    width: 100%;
+    gap: 8px; /* Espacio entre logo y texto */
 }
 
+/* Tamaño del logo de la liga */
 .logo-liga-mini {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
-    flex-shrink: 0; /* Impide que el logo se aplaste */
 }
 
+/* Estilo del texto de la liga solicitado */
 .liga-texto {
-    font-size: 0.95rem !important;
-    font-weight: 900; /* Negrita máxima */
-    color: #ffffff;
-    white-space: nowrap !important; /* PROHIBIDO saltar de línea */
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-size: 0.9rem !important;
+    margin: 0;
+    font-weight: 500;
 }
-
-/* Ajuste específico para cuando el texto es muy largo en móviles pequeños */
-@media (max-width: 400px) {
-    .liga-texto {
-        font-size: 0.8rem !important;
-    }
-    .prediction-table td.celda-liga {
-        min-width: 140px !important;
-    }
-}
-
