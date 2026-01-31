@@ -36,24 +36,14 @@ const cargarPronosticos = async () => {
     // Ejecutar la consulta con el ordenamiento que ya tenías
     let { data: partidos, error: errorPartidos } = await query.order('created_at', { ascending: false });
 
-    // 3. Traer la biblioteca de logos (esto se mantiene igual)
-    let { data: bibliotecaLogos, error: errorLogos } = await supabaseClient
-        .from('logos')
-        .select('*');
-
-    if (errorPartidos || errorLogos) {
-        console.error("Error al obtener datos");
-        return;
-    }
 
     tablaBody.innerHTML = ''; 
 
     // El resto de tu código de impresión (forEach) se mantiene EXACTAMENTE IGUAL
     partidos.forEach(partido => {
-        const encontradoLocal = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_local);
-        const encontradoVisitante = bibliotecaLogos.find(l => l.nom_equipo === partido.url_equipo_visitante);
-        const imgL = encontradoLocal ? encontradoLocal.link_logo : 'https://img.icons8.com/color/48/shield.png';
-        const imgV = encontradoVisitante ? encontradoVisitante.link_logo : 'https://img.icons8.com/color/48/shield.png';
+        // NUEVA LÓGICA DIRECTA:
+const imgL = partido.url_equipo_local; 
+const imgV = partido.url_equipo_visitante;
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
