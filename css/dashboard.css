@@ -318,30 +318,49 @@ body {
     padding: 15px;
 }
 
-/* 2. Contenedor: alineación perfecta en una sola fila */
+/* =========================================
+   SISTEMA ANT-AMONTONAMIENTO DE LIGA
+   ========================================= */
+
+/* Forzamos que la celda de la liga no se colapse en ninguna pantalla */
+.prediction-table td.celda-liga {
+    min-width: 180px !important; /* Espacio garantizado para nombres largos */
+    display: table-cell !important; /* Evita que el modo móvil lo vuelva un bloque vertical */
+    padding: 15px 10px !important;
+}
+
 .liga-contenedor {
-    display: flex;
-    align-items: center;      /* Centrado vertical con el logo */
-    justify-content: center;   /* Centrado horizontal en la celda */
-    gap: 12px;                 /* Espacio real entre logo y nombre */
+    display: flex !important; /* Forzamos flexbox siempre */
+    flex-direction: row !important; /* Alineación horizontal obligatoria */
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     width: 100%;
 }
 
-/* 3. El logo: tamaño fijo para que no se deforme */
 .logo-liga-mini {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     object-fit: contain;
-    flex-shrink: 0;            /* Impide que el logo se aplaste si el texto es largo */
+    flex-shrink: 0; /* Impide que el logo se aplaste */
 }
 
-/* 4. El texto: negrita y sin saltos de línea */
 .liga-texto {
-    font-size: 0.9rem !important;
-    font-weight: 800;          /* Negrita fuerte */
-    margin: 0;
-    white-space: nowrap;       /* CLAVE: El texto no se amontona ni salta de línea */
-    color: var(--blanco);
-    text-transform: uppercase; /* Opcional: hace que luzca más profesional */
+    font-size: 0.95rem !important;
+    font-weight: 900; /* Negrita máxima */
+    color: #ffffff;
+    white-space: nowrap !important; /* PROHIBIDO saltar de línea */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Ajuste específico para cuando el texto es muy largo en móviles pequeños */
+@media (max-width: 400px) {
+    .liga-texto {
+        font-size: 0.8rem !important;
+    }
+    .prediction-table td.celda-liga {
+        min-width: 140px !important;
+    }
 }
 
