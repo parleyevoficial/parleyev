@@ -28,15 +28,6 @@ const cargarPronosticos = async () => {
     // 2. Definir la consulta de partidos con la condicional que mencionas
     let query = supabaseClient.from('partidos').select('*');
 
-    // ELIMINAR ESTO:
-let { data: bibliotecaLogos, error: errorLogos } = await supabaseClient
-    .from('logos')
-    .select('*');
-
-if (errorPartidos || errorLogos) { // Cambia esto para que solo verifique errorPartidos
-    console.error("Error al obtener datos");
-    return;
-}
 
     // SI NO ES VIP: Solo cargamos los datos donde es_vip sea FALSE
     if (!usuarioEsVip) {
@@ -54,14 +45,10 @@ if (errorPartidos || errorLogos) { // Cambia esto para que solo verifique errorP
         // NUEVA LÓGICA DIRECTA:
 const imgL = partido.url_equipo_local; 
 const imgV = partido.url_equipo_visitante;
+const imgLiga = partido.url_liga;
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
-        // --- AGREGAR ESTO DENTRO DEL forEach (antes de la variable 'fila') ---
-
-// Buscar logo de la liga comparando el nombre de la liga con la tabla logos
-const encontradoLiga = bibliotecaLogos.find(l => l.nom_equipo === partido.liga);
-const imgLiga = encontradoLiga ? encontradoLiga.link_logo : ''; 
 
 // Construir el HTML de la celda de la liga con el logo
 const celdaLigaHTML = `
