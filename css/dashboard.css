@@ -314,7 +314,6 @@ body {
 .prediction-table td:first-child {
     min-width: 160px; /* Evita que la columna colapse */
     text-align: center;
-    vertical-align: middle;
     padding: 15px;
 }
 
@@ -333,7 +332,6 @@ body {
     display: flex !important; /* Forzamos flexbox siempre */
     flex-direction: row !important; /* Alineación horizontal obligatoria */
     align-items: center;
-    justify-content: center;
     gap: 12px;
     width: 100%;
 }
