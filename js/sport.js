@@ -1,91 +1,67 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// 1. Configuración de conexión con Supabase
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Configuración de Supabase y API
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const API_KEY = process.env.FOOTBALL_DATA_API_KEY.replace(/\s+/g, ''); // Esto quita espacios por si acaso
 
 async function ejecutarReclutamiento() {
-    console.log("--- INICIANDO PROCESO DE RECLUTAMIENTO ATÓMICO ---");
-    
-    // Configuramos la fecha de MAÑANA (01 de febrero) para la prueba
-    const fecha = new Date();
-    fecha.setDate(fecha.getDate() + 1); 
-    const mañana = fecha.toISOString().split('T')[0];
-    
-    const LIGA_ID = 8; // LaLiga
-    const SEASON_ID = 77559; // Temporada actual según tu link
-
-    console.log(`Objetivo: Partidos del ${mañana}`);
-
-    // El "Disfraz": Esto evita que SofaScore bloquee la petición de GitHub
-    const opciones = {
-        headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Referer': 'https://www.sofascore.com/',
-            'Origin': 'https://www.sofascore.com'
-        }
-    };
+    console.log("--- INICIANDO RECLUTADOR OFICIAL (FOOTBALL-DATA) ---");
 
     try {
-        // 2. Obtener lista de partidos
-        console.log("Conectando con SofaScore...");
-        const res = await fetch(`https://api.sofascore.com/v1/tournament/${LIGA_ID}/season/${SEASON_ID}/events/last/0`, opciones);
-        
-        if (!res.ok) throw new Error(`Error de conexión: ${res.status} - Posible bloqueo.`);
-        
-        const data = await res.json();
-        
-        // Filtramos por la fecha de mañana
-        const partidosSeleccionados = data.events.filter(e => e.startTimestamp.includes(mañana));
+        // 1. Obtener Partidos Programados de LaLiga (PD)
+        // Usamos un filtro de 3 días para asegurar que encuentre algo
+        const resPartidos = await fetch('https://api.football-data.org/v4/competitions/PD/matches?status=SCHEDULED', {
+            headers: { 'X-Auth-Token': API_KEY }
+        });
 
-        if (partidosSeleccionados.length === 0) {
-            console.log(`No se encontraron partidos para el ${mañana}. Intentando con los de hoy...`);
-            // Si no hay mañana, podrías probar con los de hoy (comenta la línea de arriba si quieres forzar hoy)
+        if (!resPartidos.ok) {
+            const errorData = await resPartidos.json();
+            throw new Error(`Error API: ${resPartidos.status} - ${errorData.message}`);
         }
 
-        console.log(`Partidos a procesar: ${partidosSeleccionados.length}`);
+        const dataPartidos = await resPartidos.json();
 
-        for (let partido of partidosSeleccionados) {
-            console.log(`\n--- Analizando: ${partido.homeTeam.name} vs ${partido.awayTeam.name} ---`);
+        // 2. Definir fecha de búsqueda (Mañana)
+        const fecha = new Date();
+        fecha.setDate(fecha.getDate() + 1);
+        const mañana = fecha.toISOString().split('T')[0];
+        console.log(`Buscando partidos para la fecha: ${mañana}`);
 
-            // 3. Reclutar alineaciones con el mismo disfraz
-            const resLineups = await fetch(`https://api.sofascore.com/v1/event/${partido.id}/lineups`, opciones);
-            const lineups = await resLineups.json();
+        const partidosMañana = dataPartidos.matches.filter(m => m.utcDate.includes(mañana));
 
-            if (lineups.home && lineups.away && lineups.home.players && lineups.away.players) {
-                
-                const calcularSkill = (players) => players.reduce((acc, p) => acc + (p.avgRating || 6.8), 0) / players.length;
+        if (partidosMañana.length === 0) {
+            console.log("No hay partidos programados para mañana en LaLiga.");
+            return;
+        }
 
-                const skillLocal = calcularSkill(lineups.home.players);
-                const skillVisita = calcularSkill(lineups.away.players);
-                
-                const dif = (skillLocal - skillVisita).toFixed(2);
-                const pronostico = `Skill Dif: ${dif} | L: ${skillLocal.toFixed(2)} vs V: ${skillVisita.toFixed(2)}`;
+        console.log(`Partidos encontrados: ${partidosMañana.length}`);
 
-                // 4. Inyectar en Supabase
-                const { error } = await supabase
-                    .from('partidos')
-                    .insert([
-                        { 
-                            equipo_local: partido.homeTeam.name, 
-                            equipo_visitante: partido.awayTeam.name, 
-                            pronostico: pronostico 
-                        }
-                    ]);
+        for (let partido of partidosMañana) {
+            console.log(`> Procesando: ${partido.homeTeam.name} vs ${partido.awayTeam.name}`);
 
-                if (error) console.error(`❌ Error Supabase: ${error.message}`);
-                else console.log(`✅ ¡DATOS ENVIADOS! ${partido.homeTeam.name} vs ${partido.awayTeam.name}`);
+            // Pronóstico simple para la prueba
+            const pronosticoGenerado = `Análisis Automático: Encuentro programado para el ${partido.utcDate}.`;
 
+            // 3. Enviar a Supabase
+            const { error } = await supabase
+                .from('partidos')
+                .insert([{ 
+                    equipo_local: partido.homeTeam.name, 
+                    equipo_visitante: partido.awayTeam.name, 
+                    pronostico: pronosticoGenerado 
+                }]);
+
+            if (error) {
+                console.error(`❌ Error al insertar en Supabase: ${error.message}`);
             } else {
-                console.log(`⚠️ Alineaciones no confirmadas aún para ID: ${partido.id}. Inténtalo 1 hora antes del juego.`);
+                console.log(`✅ ¡DATOS ENVIADOS CON ÉXITO!`);
             }
         }
+
     } catch (err) {
-        console.error("❌ FALLO EN EL RECLUTAMIENTO:", err.message);
+        console.error("❌ ERROR CRÍTICO:", err.message);
     }
-    
-    console.log("\n--- OPERACIÓN TERMINADA ---");
+    console.log("--- PROCESO FINALIZADO ---");
 }
 
 ejecutarReclutamiento();
