@@ -157,7 +157,6 @@ body {
 
 .vs-text { color: var(--naranja-ev); font-weight: bold; font-size: 0.8rem; }
 .equipo-info span { font-size: 0.85rem; font-weight: bold; color: #fff; }
-.liga-texto { margin-top: 8px; font-size: 0.85rem !important; color: #fff !important; }
 
 .badge-vip {
     color: var(--vip-color);
@@ -307,69 +306,42 @@ body {
     color: var(--accent-orange) !important;
 }
 
-/* Contenedor para alinear logo y nombre de la liga */
-.liga-contenedor {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espacio entre logo y texto */
-}
+/* =========================================
+   AJUSTE DE LIGA (CORRECCIÓN DE AMONTONAMIENTO)
+   ========================================= */
 
-/* Tamaño del logo de la liga */
-.logo-liga-mini {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-}
-
-/* Estilo del texto de la liga solicitado */
-.liga-texto {
-    font-size: 0.9rem !important;
-    margin: 0;
-    font-weight: 500;
-}
-
-/* 1. Centrar el contenido dentro de la celda de la tabla */
+/* 1. Celda de la tabla: le damos un ancho mínimo para que el texto no se apriete */
 .prediction-table td:first-child {
+    min-width: 160px; /* Evita que la columna colapse */
     text-align: center;
     vertical-align: middle;
+    padding: 15px;
 }
 
-/* 2. Ajustar el contenedor flex para que los elementos se centren horizontalmente */
+/* 2. Contenedor: alineación perfecta en una sola fila */
 .liga-contenedor {
     display: flex;
-    align-items: center;      /* Centrado vertical */
-    justify-content: center;   /* Centrado horizontal (esto quita el pegado a la izquierda) */
-    gap: 8px;
+    align-items: center;      /* Centrado vertical con el logo */
+    justify-content: center;   /* Centrado horizontal en la celda */
+    gap: 12px;                 /* Espacio real entre logo y nombre */
     width: 100%;
 }
 
-/* 3. Asegurar que el texto no tenga márgenes que lo empujen */
+/* 3. El logo: tamaño fijo para que no se deforme */
+.logo-liga-mini {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;            /* Impide que el logo se aplaste si el texto es largo */
+}
+
+/* 4. El texto: negrita y sin saltos de línea */
 .liga-texto {
     font-size: 0.9rem !important;
+    font-weight: 800;          /* Negrita fuerte */
     margin: 0;
-    text-align: center;
-
+    white-space: nowrap;       /* CLAVE: El texto no se amontona ni salta de línea */
+    color: var(--blanco);
+    text-transform: uppercase; /* Opcional: hace que luzca más profesional */
 }
 
-.liga-contenedor {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;        /* Aumentamos el espacio entre logo y texto */
-    width: 100%;
-    padding: 5px 0;   /* Agregamos un poco de aire arriba y abajo */
-}
-
-.liga-texto {
-    font-size: 0.9rem !important;
-    font-weight: 900;
-    margin: 0;
-    white-space: nowrap; /* CLAVE: Evita que el texto se divida en dos líneas */
-    text-transform: uppercase; /* Opcional: hace que se vea más ordenado */
-}
-
-/* Forzar que la columna de la liga tenga un ancho mínimo suficiente */
-.prediction-table td:first-child {
-    min-width: 140px; 
-    text-align: center;
-}
