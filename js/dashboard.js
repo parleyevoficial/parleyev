@@ -67,14 +67,15 @@ const imgLiga = encontradoLiga ? encontradoLiga.link_logo : '';
 const celdaLigaHTML = `
     <div class="liga-contenedor">
         ${imgLiga ? `<img src="${imgLiga}" class="logo-liga-mini" referrerpolicy="no-referrer">` : ''}
-        <p class="liga-texto"><strong>${partido.liga}</strong></p>
     </div>
 `;
 
         fila.innerHTML = `
             
-            <td>
+            <td class="celda-liga">
         ${celdaLigaHTML}
+                <p class="liga-texto"><strong>${partido.liga}</strong></p>
+
     </td>
 
             <td>
