@@ -306,24 +306,3 @@ body {
 .fa-chart-line {
     color: var(--accent-orange) !important;
 }
-
-/* Contenedor para alinear logo y nombre de la liga */
-.liga-contenedor {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espacio entre logo y texto */
-}
-
-/* Tamaño del logo de la liga */
-.logo-liga-mini {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-}
-
-/* Estilo del texto de la liga solicitado */
-.liga-texto {
-    font-size: 0.9rem !important;
-    margin: 0;
-    font-weight: 500;
-}

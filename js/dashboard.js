@@ -57,26 +57,11 @@ const cargarPronosticos = async () => {
         const iconoDeporte = obtenerIconoDeporte(partido.deporte);
         const fila = document.createElement('tr');
         
-        // --- AGREGAR ESTO DENTRO DEL forEach (antes de la variable 'fila') ---
-
-// Buscar logo de la liga comparando el nombre de la liga con la tabla logos
-const encontradoLiga = bibliotecaLogos.find(l => l.nom_equipo === partido.liga);
-const imgLiga = encontradoLiga ? encontradoLiga.link_logo : ''; 
-
-// Construir el HTML de la celda de la liga con el logo
-const celdaLigaHTML = `
-    <div class="liga-contenedor">
-        ${imgLiga ? `<img src="${imgLiga}" class="logo-liga-mini" referrerpolicy="no-referrer">` : ''}
-        <p class="liga-texto"><strong>${partido.liga}</strong></p>
-    </div>
-`;
-
         fila.innerHTML = `
             
-            <td>
-        ${celdaLigaHTML}
-    </td>
-
+             <td>
+                <p class="liga-texto">${partido.liga}</p>
+            </td>
             <td>
                 <div class="evento-celda">
                     <div class="equipo-info">
