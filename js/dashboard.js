@@ -28,6 +28,16 @@ const cargarPronosticos = async () => {
     // 2. Definir la consulta de partidos con la condicional que mencionas
     let query = supabaseClient.from('partidos').select('*');
 
+    // ELIMINAR ESTO:
+let { data: bibliotecaLogos, error: errorLogos } = await supabaseClient
+    .from('logos')
+    .select('*');
+
+if (errorPartidos || errorLogos) { // Cambia esto para que solo verifique errorPartidos
+    console.error("Error al obtener datos");
+    return;
+}
+
     // SI NO ES VIP: Solo cargamos los datos donde es_vip sea FALSE
     if (!usuarioEsVip) {
         query = query.eq('es_vip', false);
